@@ -47,6 +47,8 @@ function App() {
         <Button className="Submit-Button" onClick={handleSubmit}>Submit</Button>
       </Form>
       <div>Jacob Hudson</div>
+      <b>
+        <Button>New Button</Button></b>
     </div>
   );
 }
