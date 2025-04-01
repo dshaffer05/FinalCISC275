@@ -1,0 +1,37 @@
+.Home {
+    text-align: center;
+    background-color: #282c34;
+    min-height: 100vh;
+  }
+  
+  
+  .Home-header {
+    background-color: #282c34;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+    padding-top: 5%;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .Questionnaire-Selection {
+    background-color: #282c34;
+    display: flex;
+    flex-direction: column;
+    align-items: top;
+    justify-content: top;
+    font-size: calc(10px + 2vmin);
+    padding: 5%;
+    color: white;
+  }
+  
+  .Question-Rater {
+    padding-top: 10%;
+  }
+  
+  .API-Key-Form{
+    position: fixed;
+    bottom: 0;
+  }
