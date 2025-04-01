@@ -27,7 +27,7 @@ function App() {
     <div className="App">
       <header className="Home-header">
         <h1>
-          Homepage
+          The Career Helpi
         </h1>
       </header>
       <div className='Questionnaire-Selection'>
@@ -55,19 +55,19 @@ function App() {
             </Button>
           </Col>
         </Row>
+        <Col className='Question-Rater'>
+          <h1 className='Rater-Header'>
+            Question Rater
+          </h1>
+          <div className='Rater-Text'>
+            This is a question rater that will allow you to rate our questions and improve our quiz.
+          </div>
+          <Button className='Rater-Button'>
+            Start Question Rater
+          </Button>
+        </Col>
       </div>
-      <div className='Question-Rater'>
-        <h1 className='Rater-Header'>
-          Question Rater
-        </h1>
-        <div className='Rater-Text'>
-          This is a question rater that will allow you to rate our questions and improve our quiz.
-        </div>
-        <Button className='Rater-Button'>
-          Start Question Rater
-        </Button>
-      </div>
-      <Form>
+      <Form className='API-Key-Form'>
         <Form.Label>API Key:</Form.Label>
         <Form.Control type="password" placeholder="Insert API Key Here" onChange={changeKey}></Form.Control>
         <br></br>

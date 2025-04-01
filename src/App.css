@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
 }
 
 
@@ -21,17 +23,15 @@
   align-items: top;
   justify-content: top;
   font-size: calc(10px + 2vmin);
-  padding-top: 5%;
+  padding: 5%;
   color: white;
 }
 
 .Question-Rater {
-  background-color: #282c34;
-  display: flex;
-  flex-direction: column;
-  align-items: top;
-  justify-content: top;
-  font-size: calc(10px + 2vmin);
-  padding-top: 5%;
-  color: white;
+  padding-top: 10%;
+}
+
+.API-Key-Form{
+  position: fixed;
+  bottom: 0;
 }
