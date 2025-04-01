@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+//import React, { useState } from 'react';
+import { Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './Detailed.css'
 
