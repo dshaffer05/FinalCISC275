@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 //import './App.css';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { Home } from './Pages/Home';
 import { Detailed } from './Pages/Detailed';
