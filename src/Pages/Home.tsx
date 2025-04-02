@@ -42,7 +42,6 @@ export function Home(){
   </div>
     <div>Andrew Shaffer</div>
   <div>Jacob Hudson</div>
-  <b>
-    <Button>New Button</Button></b><div>Welcome to Home!</div>
-    <Link to='/Detailed'><Button>To Detailed</Button></Link></div>
+  <div>Liam Greenhalgh</div>
+  </div>
 }
