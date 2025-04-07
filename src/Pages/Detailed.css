@@ -4,3 +4,44 @@
     background-color: #282c34;
     min-height: 100vh;
   }
+
+.Home-button {
+  position:fixed;
+  top: 2%;
+  left: 2%;
+  padding: 10px;
+}
+
+
+
+.Submit-button {
+  position: fixed;
+  top: 2%;
+  right: 2%;
+  padding: 10px;
+}
+
+.Detailed-Header {
+  padding: 5%;
+}
+
+.Questionnaire {
+  padding: 5%;
+}
+
+.Detailed-questionnaire {
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: top;
+  justify-content: top;
+  border: 2px solid white;
+  min-height: 100vh;
+}
+
+.Answer-Button {
+  display: flex;
+  flex-direction: column;
+  align-items: top;
+  justify-content: top;
+}
