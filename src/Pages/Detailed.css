@@ -23,6 +23,8 @@
 
 .Detailed-Header {
   padding: 5%;
+  display: flex;
+  flex-direction: column;
 }
 
 .Questionnaire {
@@ -30,18 +32,19 @@
 }
 
 .Detailed-questionnaire {
+  padding: 2%;
+  padding-left: 10%;
+  padding-right: 10%;
   background-color: #282c34;
-  display: flex;
-  flex-direction: column;
-  align-items: top;
-  justify-content: top;
   border: 2px solid white;
   min-height: 100vh;
 }
 
-.Answer-Button {
-  display: flex;
-  flex-direction: column;
-  align-items: top;
-  justify-content: top;
+.Button-Group {
+  margin-top: 2%;
+  margin-bottom: 5%;
+}
+
+.Answer {
+  border: 1px solid white;
 }
