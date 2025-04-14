@@ -43,7 +43,7 @@ export function Home(){
     <div>Andrew Shaffer</div>
   <div>Jacob Hudson</div>
   <div>
-          <a href="./liam-greenhalgh.html">
+          <a href="../liam-greenhalgh.html">
           <p>Liam Greenhalgh</p>
           </a>
         </div>
