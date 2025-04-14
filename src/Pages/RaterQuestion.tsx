@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import './RaterQuestion.css'
-export function RaterQuestion({question,isKept,score,answered}: {question: string, isKept: boolean, score:number, answered:boolean;}){
+export function RaterQuestion({index, question,isKept,score,answered}: {index: number, question: string, isKept: boolean, score:number, answered:boolean;}){
     const [raterQuestion, setRaterQuestion] = useState<string>(question);
     //function RaterQuestion({question,}: {question: string;},{isKept,}: {isKept: boolean;},{score,}: {score:number;})
     const [rateScore, setRateScore] = useState<number>(score);
     const [keep, setKeep] = useState<boolean>(isKept);
     const [reason, setReason] = useState<string>("");
+    const [isAnswered, setIsAnswered] = useState<boolean>(false);
     function changeScore(event: React.ChangeEvent<HTMLInputElement>) {
+        setIsAnswered(true);
+        console.log(isAnswered);
         setRaterQuestion(raterQuestion);
+        setIsAnswered(true);
+        answered = isAnswered;
         if(event.target.value === "Very Good"){
             setRateScore(5);
             score = rateScore;
@@ -39,6 +44,7 @@ export function RaterQuestion({question,isKept,score,answered}: {question: strin
             setKeep(false);
             isKept = keep;
         }
+
     }
     function changeReason(event: React.ChangeEvent<HTMLInputElement>){
         setReason(event.target.value);
@@ -47,7 +53,7 @@ export function RaterQuestion({question,isKept,score,answered}: {question: strin
     <Form.Check
         inline
         type="radio"
-        name="options"
+        name="option_1"
         onChange={changeScore}
         label="Very Bad"
         value="Very Bad"
@@ -55,7 +61,7 @@ export function RaterQuestion({question,isKept,score,answered}: {question: strin
     <Form.Check
     inline
     type="radio"
-    name="options"
+    name="option_2"
     onChange={changeScore}
     label="Bad"
     value="Bad"
@@ -63,7 +69,7 @@ export function RaterQuestion({question,isKept,score,answered}: {question: strin
     <Form.Check
     inline
     type="radio"
-    name="options"
+    name="option_3"
     onChange={changeScore}
     label="Ok"
     value="Ok"
@@ -71,7 +77,7 @@ export function RaterQuestion({question,isKept,score,answered}: {question: strin
     <Form.Check
     inline
     type="radio"
-    name="options"
+    name="option_4"
     onChange={changeScore}
     label="Good"
     value="Good"
@@ -79,7 +85,7 @@ export function RaterQuestion({question,isKept,score,answered}: {question: strin
     <Form.Check
     inline
     type="radio"
-    name="options"
+    name="option_5"
     onChange={changeScore}
     label="Very Good"
     value="Very Good"

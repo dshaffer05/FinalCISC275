@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
+//import React, { useState } from "react";
+//import Form from "react-bootstrap/Form";
 import "./ProgBar.css"
 export function changeProgress(answered: boolean[]){
     const sum = answered.reduce((accumulator, question) => (question === true) ? accumulator++: accumulator+=0, 0);
@@ -7,7 +7,7 @@ export function changeProgress(answered: boolean[]){
     
 }
 export function ProgBar({answered,}:{answered:boolean[];}){
-    const [progress, setProgress] = useState<boolean[]>({...answered});
+    /*const [progress, setProgress] = useState<boolean[]>({...answered});
     const [filled, setFilled] = useState<number>(0);
     const [running, isRunning] = useState<boolean>(false);
 
@@ -28,5 +28,5 @@ export function ProgBar({answered,}:{answered:boolean[];}){
             }}></div>
             <span className="progress">{filled}%</span>
         </div>
-    </div>
+    </div>*/
 }
