@@ -1,34 +1,45 @@
 //import React, { useState } from 'react';
 import { Button, ButtonGroup, Col, Row} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useState } from "react";
 import './Detailed.css'
-import './Questions.txt'
 
 export function Detailed(){
 
     let questionList: string[] = [];
-    fetch('./Questions.txt')
-        .then(response => response.text())
-        .then(data => {
-            questionList = data.split('\n'); // Split the file content into an array
-        })
-        
-    let questionNumbers: number[] = [] //array of question numbers to be generated
 
+    const [text, setText] = useState(""); // init with an empty string
 
-    function pickQuestion(): string{
-        let question = Math.floor(Math.random() * 30) + 1 //random number between 1-10
-        if (questionNumbers.includes(question)){ //if the question is already in the array, pick a new one
-            return pickQuestion()
+    async function fetchQuestions() {
+        try {
+            const response = await fetch(`./Questions.txt`);
+            const data = await response.text();
+            setText(data);
+        } catch (error) {
+            console.error(error);
         }
-        questionNumbers.push(question) //add the question number to the array
-        return questionList[question-1] //return the question at the index of the random number
     }
 
+    fetchQuestions();
+    questionList = text.split('\n'); // Split the file content into an array
+    
+    questionList = questionList.filter((question) => question.trim() !== ""); // Filter out empty lines
+    questionList = questionList.map((question) => question.trim()); // Trim whitespace from each question
 
+
+    let usedQuestions: string[] = [] //array of used questions to be generated
+    function pickQuestion(): string{
+        let question = Math.floor(Math.random() * questionList.length) 
+        let questionText = questionList[question] //get the question at the random number
+        questionList.splice(question, 1) //remove the question from the list so it won't be repeated
+        usedQuestions.push(questionText) //add the question to the used questions list
+        return questionText //return the question at the index of the random number
+    }
+
+    
 
     let questions: JSX.Element[] = [] //array of questions to be generated
-    let length = 10 //length of the questionnaire
+    let length = 30 //length of the questionnaire
     function generateQuestions(){
         for (let i = 0; i < length; i++){
             questions.push(<Row className='Question' key={i}>
@@ -36,16 +47,16 @@ export function Detailed(){
                 <h5 className='Question'>{pickQuestion()}</h5>
                 <Row>
                     <ButtonGroup className='Button-Group'>
-                        <Button className='Answer'>1</Button>
-                        <Button className='Answer'>2</Button>
-                        <Button className='Answer'>3</Button>
-                        <Button className='Answer'>4</Button>
-                        <Button className='Answer'>5</Button>
-                        <Button className='Answer'>6</Button>
-                        <Button className='Answer'>7</Button>
-                        <Button className='Answer'>8</Button>
-                        <Button className='Answer'>9</Button>
-                        <Button className='Answer'>10</Button>
+                        <Button variant='outline-primary' className='Answer'>1</Button>
+                        <Button variant='outline-primary' className='Answer'>2</Button>
+                        <Button variant='outline-primary' className='Answer'>3</Button>
+                        <Button variant='outline-primary' className='Answer'>4</Button>
+                        <Button variant='outline-primary' className='Answer'>5</Button>
+                        <Button variant='outline-primary' className='Answer'>6</Button>
+                        <Button variant='outline-primary' className='Answer'>7</Button>
+                        <Button variant='outline-primary' className='Answer'>8</Button>
+                        <Button variant='outline-primary' className='Answer'>9</Button>
+                        <Button variant='outline-primary' className='Answer'>10</Button>
                     </ButtonGroup>
                 </Row>
             </Row>)
