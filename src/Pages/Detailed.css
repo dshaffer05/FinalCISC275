@@ -48,3 +48,17 @@
 .Answer {
   border: 1px solid white;
 }
+
+.progress-border {
+  width: 95%;
+  background-color: #83acff;
+  border: #ffffff 2px solid;
+  border-radius: 5px;
+  height: 24px;
+  margin: 0 auto;
+}
+.progress-bar {
+  background-color: #0055ff;
+  height: 20px;
+  width: 0%;
+}
