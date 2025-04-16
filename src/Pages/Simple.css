@@ -1,4 +1,4 @@
-.Detailed {
+.Simple {
   color: white;
   text-align: center;
   background-color: #282c34;
@@ -12,8 +12,6 @@ left: 2%;
 padding: 10px;
 }
 
-
-
 .Submit-button {
 position: fixed;
 top: 2%;
@@ -21,7 +19,7 @@ right: 2%;
 padding: 10px;
 }
 
-.Detailed-Header {
+.Simple-Header {
 padding: 5%;
 display: flex;
 flex-direction: column;
@@ -31,7 +29,7 @@ flex-direction: column;
 padding: 5%;
 }
 
-.Detailed-questionnaire {
+.Simple-questionnaire {
 padding: 2%;
 padding-left: 10%;
 padding-right: 10%;
