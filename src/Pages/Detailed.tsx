@@ -5,15 +5,14 @@ import { useEffect, useState,} from "react";
 import './Detailed.css'
 
 export function Detailed() {
-    const LENGTH = 5; // Number of questions to display
+    const LENGTH = 1; // Number of questions to display
 
 
     const [text, setText] = useState(""); // Initialize with an empty string
     const [questions, setQuestions] = useState<string[]>([]); // Store question texts
     const [selectedVariants, setSelectedVariants] = useState<number[]>(Array(LENGTH).fill(-1)); // Track selected button index for each question (-1 means none selected)
     const [submittable, setSubmittable] = useState(false); // Track if the questionnaire is complete
-
-
+    const [popupVisible, setPopupVisible] = useState(false); // Track if the popup is visible
     const [progressString, setProgressString] = useState("0%"); // Initialize progress string
 
     async function fetchQuestions() {
@@ -60,7 +59,7 @@ export function Detailed() {
     }
 
     function Submitted() {
-        alert(`You have submitted the questionnaire.`);
+        setPopupVisible(true); // Show the popup
     }
 
     return (
@@ -122,6 +121,15 @@ export function Detailed() {
                     </Col>
                 </div>
             </div>
+            {popupVisible && (
+                <div className="popup-container">
+                        {popupVisible && (
+                            <div className="popup">
+                                <h2>Pop-up Content</h2>
+                                <p>This is the content of the pop-up window.</p>
+                            </div>
+                        )}
+                </div>)}
         </div>
     );
 }
