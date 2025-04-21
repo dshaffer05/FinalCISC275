@@ -79,8 +79,7 @@ export function Simple() {
                 <div className="Simple-Header">
                     <h1 className="Header">Welcome to the Simple Questionnaire</h1>
                     <p>
-                        Please answer the following questions on a scale from 1-10 with 1 being the
-                        lowest and 10 being the highest. Press Submit when you are complete to see
+                        Please answer the following questions with yes or no. Press Submit when you are complete to see
                         your results.
                     </p>
                 </div>
