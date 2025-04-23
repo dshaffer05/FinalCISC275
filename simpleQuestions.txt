@@ -1,30 +1,100 @@
-What subjects do you enjoy the most in school?
-What hobbies or activities do you enjoy doing in your free time?
-Would you rather work with people, data, tools, or ideas?
-Do you enjoy solving problems or creating new things?
-Would you prefer working indoors or outdoors?
-What are you naturally good at (e.g., writing, math, drawing, organizing)?
-Do you enjoy working with your hands or using technology?
-Are you more comfortable working alone or in a team?
-Do you like planning things out or going with the flow?
-Do you enjoy leading projects or supporting others?
-Is it important for your future job to make a lot of money?
-Do you want a career where you help people?
-Do you want a job that lets you be creative?
-Do you want a job that changes often or stays consistent?
-How important is job stability or job security to you?
-Do you prefer hands-on learning, reading/writing, or listening/watching?
-Do you enjoy science and experiments?
-Do you like debating, discussing, or presenting ideas?
-Do you like analyzing patterns or coming up with new ideas?
-Are you interested in going to college, trade school, or jumping right into work?
-Do you prefer a fast-paced environment or a calm, steady one?
-Would you like to travel for work or stay in one place?
-Do you want to work for a big company, a small business, or for yourself?
-Do you prefer working with technology or avoiding screens?
-Would you enjoy wearing a uniform or dressing casually at work?
-Are you comfortable speaking in front of groups?
-Do you enjoy writing or journaling your thoughts?
-Do people often come to you for advice or support?
-Do you like giving instructions or following them?
-Are you comfortable making quick decisions?
+Do you enjoy math in school?
+Do you enjoy science classes?
+Do you enjoy reading and writing?
+Do you enjoy history or social studies?
+Do you enjoy art or music classes?
+Do you enjoy using computers at school?
+Do you enjoy building or fixing things?
+Do you enjoy working on group projects?
+Do you enjoy solving puzzles or brainteasers?
+Do you enjoy designing or creating things?
+Do you like spending time outdoors?
+Do you prefer working inside?
+Do you like helping people solve their problems?
+Do you enjoy organizing things?
+Do you like planning events or tasks?
+Do you enjoy leading teams or groups?
+Do you prefer following instructions over leading?
+Do you enjoy giving presentations?
+Are you comfortable speaking to strangers?
+Do you enjoy writing stories, essays, or journals?
+Do you enjoy drawing or painting?
+Do you enjoy playing musical instruments?
+Do you enjoy using technology to create things?
+Do you enjoy watching science experiments?
+Do you like learning about the human body or health?
+Do you enjoy helping friends when they’re upset?
+Do you enjoy volunteering in your community?
+Do you prefer hands-on work over desk work?
+Do you enjoy managing money or budgets?
+Do you like solving real-world problems?
+Do you enjoy analyzing data or patterns?
+Do you like imagining future inventions?
+Would you prefer a job with a consistent routine?
+Do you like surprises or changes in your day?
+Do you want a job where you move around a lot?
+Would you enjoy working at a computer most of the day?
+Do you want a job with flexible hours?
+Do you want a 9-to-5 type of job?
+Do you want to travel for work?
+Do you want to work in one location?
+Do you want a job with high earning potential?
+Do you want a job that helps people?
+Do you want a job that is creative?
+Do you want a job that is predictable?
+Is job security important to you?
+Do you want to go to college after high school?
+Would you consider going to trade school?
+Do you want to start working right after high school?
+Are you interested in starting your own business?
+Would you enjoy working for a big company?
+Would you enjoy working for a small business?
+Do you want to work for yourself one day?
+Would you enjoy having a uniform at work?
+Would you prefer dressing casually for work?
+Do you enjoy doing repetitive tasks?
+Do you prefer variety in your daily tasks?
+Do you like helping animals?
+Are you interested in environmental issues?
+Do you want a physically active job?
+Do you want a job that lets you sit most of the day?
+Are you comfortable working under pressure?
+Do you enjoy giving instructions to others?
+Do you prefer following someone else’s lead?
+Are you good at managing your time?
+Do you enjoy working on long-term projects?
+Do you like short tasks that can be completed quickly?
+Do you prefer working alone?
+Do you prefer working with a team?
+Do you enjoy debates and discussions?
+Do you enjoy doing research?
+Are you interested in how machines work?
+Do you like fixing broken items?
+Do you like learning new skills?
+Do you enjoy teaching others new things?
+Would you enjoy working with children?
+Would you enjoy working with the elderly?
+Do you enjoy working with numbers?
+Do you like setting goals and achieving them?
+Do you enjoy practicing public speaking?
+Do people often ask you for advice?
+Do you prefer making decisions quickly?
+Do you like taking your time to think things through?
+Are you interested in laws and how they work?
+Are you interested in how businesses operate?
+Are you interested in how cities are planned and built?
+Do you like staying up-to-date with the news?
+Do you like trying new things?
+Do you like routines that don’t change much?
+Do you feel comfortable using new apps or programs?
+Would you enjoy being in a leadership position?
+Would you prefer being behind the scenes?
+Do you like helping others reach their goals?
+Do you feel comfortable in emergency situations?
+Do you like fast-paced environments?
+Do you prefer quiet and calm environments?
+Do you want a job that makes a difference in the world?
+Do you want to work in a creative industry like film, music, or design?
+Would you enjoy working in healthcare?
+Would you enjoy working in construction or trades?
+Would you enjoy working in a lab or research setting?
