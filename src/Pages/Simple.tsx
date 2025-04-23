@@ -6,7 +6,7 @@ import './Simple.css'
 import './Detailed.css'
 
 export function Simple() {
-    const LENGTH = 5; // Number of questions to display
+    const LENGTH = 10; // Number of questions to display
 
 
     const [text, setText] = useState(""); // Initialize with an empty string
@@ -100,7 +100,7 @@ export function Simple() {
                                 <h5 className="Question">{question}</h5>
                                 <Row>
                                     <ButtonGroup className="Button-Group" id={(i + 1).toString()}>
-                                        {[...Array(10)].map((_, idx) => (
+                                        {["No", "Yes"].map((label, idx) => (
                                             <Button
                                                 key={idx}
                                                 variant={
@@ -112,7 +112,7 @@ export function Simple() {
                                                 id={idx.toString()}
                                                 onClick={() => handleButtonClick(i, idx)} // Pass question index and button index
                                             >
-                                                {idx + 1}
+                                                {label}
                                             </Button>
                                         ))}
                                     </ButtonGroup>
