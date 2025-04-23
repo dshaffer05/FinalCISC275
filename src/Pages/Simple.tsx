@@ -6,7 +6,7 @@ import './Simple.css'
 import './Detailed.css'
 
 export function Simple() {
-    const LENGTH = 10; // Number of questions to display
+    const LENGTH = 30; // Number of questions to display
 
 
     const [text, setText] = useState(""); // Initialize with an empty string
