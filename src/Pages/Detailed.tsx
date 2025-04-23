@@ -3,10 +3,34 @@ import { Button, ButtonGroup, Col, Row} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useEffect, useState,} from "react";
 import './Detailed.css'
+import OpenAI from 'openai';
+
+const keyData = localStorage.getItem("MYKEY") || ""; // Default to an empty string if not found
+
+const openai = new OpenAI({
+    apiKey: keyData, // Replace with your actual API key
+  });
+
+  async function getChatGPTResponse(prompt: string): Promise<string | null> {
+    try {
+      // Create a chat completion request
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo', // Specify the model
+        messages: [{ role: 'user', content: prompt }], // Pass the prompt as a user message
+      });
+  
+      // Extract the response text from the completion
+      const responseText = completion.choices[0].message.content;
+      return responseText;
+    } catch (error) {
+      console.error('Error getting ChatGPT response:', error);
+      return null;
+    }
+  }
+
 
 export function Detailed() {
     const LENGTH = 1; // Number of questions to display
-
 
     const [text, setText] = useState(""); // Initialize with an empty string
     const [questions, setQuestions] = useState<string[]>([]); // Store question texts
@@ -14,6 +38,8 @@ export function Detailed() {
     const [submittable, setSubmittable] = useState(false); // Track if the questionnaire is complete
     const [popupVisible, setPopupVisible] = useState(false); // Track if the popup is visible
     const [progressString, setProgressString] = useState("0%"); // Initialize progress string
+
+
 
     async function fetchQuestions() {
         try {
@@ -127,6 +153,7 @@ export function Detailed() {
                             <div className="popup">
                                 <h2>Pop-up Content</h2>
                                 <p>This is the content of the pop-up window.</p>
+                                <p></p> 
                             </div>
                         )}
                 </div>)}
