@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState,} from "react";
 import './Simple.css'
 import './Detailed.css'
+import { StoreQuestions } from './StoreQuestions';
 
 export function Simple() {
     const LENGTH = 30; // Number of questions to display
@@ -58,6 +59,7 @@ export function Simple() {
         const progressPercentage = ((progress / LENGTH) * 100).toFixed(2); // Calculate progress percentage
         setProgressString(`${progressPercentage}%`); // Update progressString state
         setSubmittable(progress === LENGTH); // Update submittable state
+        StoreQuestions.addQuestionsAnswered(questions[questionIndex]);
     }
 
     function Submitted() {

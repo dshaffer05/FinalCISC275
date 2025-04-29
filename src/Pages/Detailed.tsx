@@ -3,9 +3,10 @@ import { Button, ButtonGroup, Col, Row} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useEffect, useState,} from "react";
 import './Detailed.css'
+import { StoreQuestions } from './StoreQuestions';
 
 export function Detailed() {
-    const LENGTH = 1; // Number of questions to display
+    const LENGTH = 10; // Number of questions to display
 
 
     const [text, setText] = useState(""); // Initialize with an empty string
@@ -50,12 +51,14 @@ export function Detailed() {
         const newVariants = [...selectedVariants];
         newVariants[questionIndex] = buttonIndex + 1; // Store the selected button value (1-10)
         setSelectedVariants(newVariants);
-    
+
+        //console.log("all answers: "+selectedVariants);
         // Calculate progress immediately
         const progress = newVariants.filter((value) => value !== -1).length;
         const progressPercentage = ((progress / LENGTH) * 100).toFixed(2); // Calculate progress percentage
         setProgressString(`${progressPercentage}%`); // Update progressString state
         setSubmittable(progress === LENGTH); // Update submittable state
+        StoreQuestions.addQuestionsAnswered(questions[questionIndex]);
     }
 
     function Submitted() {
