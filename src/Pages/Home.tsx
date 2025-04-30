@@ -1,9 +1,17 @@
 //import React, { useState } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import './Home.css'
-
+import './Home.css';
 export function Home(){
+  /*const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  function checkAmount(){
+    if(StoreQuestions.getQuestionsAnswered.length !== 0){
+      setIsDisabled(false);
+    }
+    else{
+      setIsDisabled(true);
+    }
+  }*/
     return <div className='Home'><header className="Home-header">
     <h1>
       The Career Helpi
@@ -42,6 +50,10 @@ export function Home(){
   </div>
     <div>Andrew Shaffer</div>
   <div>Jacob Hudson</div>
-  <div>Liam Greenhalgh</div>
+  <div>
+          <a href="../liam-greenhalgh.html">
+          <p>Liam Greenhalgh</p>
+          </a>
+        </div>
   </div>
 }

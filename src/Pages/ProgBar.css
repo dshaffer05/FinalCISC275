@@ -1,0 +1,22 @@
+.progressbar{
+    position:center;
+    display: flex;
+    justify-self: center;
+    justify-items: flex-start;
+    overflow: hidden;
+    width: 350px;
+    height: 35px;
+    border-radius: 5px;
+    background-color: rgb(235, 230, 230);
+    margin-top: 20px;
+
+}
+
+.progress{
+    font-weight: 600;
+    display: flex;
+    left: 25%;
+    top: 25%;
+    transform: (-50%, -50%);
+    color:black;
+}

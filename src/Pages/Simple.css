@@ -1,6 +1,62 @@
 .Simple {
-    color: white;
-    text-align: center;
-    background-color: #282c34;
-    min-height: 100vh;
-  }
+  color: white;
+  text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+}
+
+.Home-button {
+position:fixed;
+top: 2%;
+left: 2%;
+padding: 10px;
+}
+
+.Submit-button {
+position: fixed;
+top: 2%;
+right: 2%;
+padding: 10px;
+}
+
+.Simple-Header {
+padding: 5%;
+display: flex;
+flex-direction: column;
+}
+
+.Questionnaire {
+padding: 5%;
+}
+
+.Simple-questionnaire {
+padding: 2%;
+padding-left: 10%;
+padding-right: 10%;
+background-color: #282c34;
+border: 2px solid white;
+min-height: 100vh;
+}
+
+.Button-Group {
+margin-top: 2%;
+margin-bottom: 5%;
+}
+
+.Answer {
+border: 1px solid white;
+}
+
+.progress-border {
+width: 95%;
+background-color: #83acff;
+border: #ffffff 2px solid;
+border-radius: 5px;
+height: 24px;
+margin: 0 auto;
+}
+.progress-bar {
+background-color: #0055ff;
+height: 20px;
+width: 0%;
+}

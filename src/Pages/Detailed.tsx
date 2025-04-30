@@ -75,12 +75,14 @@ export function Detailed() {
         const newVariants = [...selectedVariants];
         newVariants[questionIndex] = buttonIndex + 1; // Store the selected button value (1-10)
         setSelectedVariants(newVariants);
-    
+
+        //console.log("all answers: "+selectedVariants);
         // Calculate progress immediately
         const progress = newVariants.filter((value) => value !== -1).length;
         const progressPercentage = ((progress / LENGTH) * 100).toFixed(2); // Calculate progress percentage
         setProgressString(`${progressPercentage}%`); // Update progressString state
         setSubmittable(progress === LENGTH); // Update submittable state
+        StoreQuestions.addQuestionsAnswered(questions[questionIndex]);
     }
 
     async function Submitted() {
