@@ -3,11 +3,25 @@ import { Button, ButtonGroup, Col, Row} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useEffect, useState,} from "react";
 import './Detailed.css'
-import { StoreQuestions } from './StoreQuestions';
+import OpenAI from 'openai';
+
+let API = "";
+let keyData = localStorage.getItem("MYKEY"); // Default to an empty string if not found
+if (keyData !== null) {
+    API = JSON.parse(keyData); // Parse the string to get the actual key
+}
+console.log("Key from local storage: " + API); // Log the key for debugging
+
+const openai = new OpenAI({
+    apiKey: API, // Replace with your actual API key
+    dangerouslyAllowBrowser:(true), // Enable browser usage (not recommended for production)
+  });
+
+  
+
 
 export function Detailed() {
     const LENGTH = 10; // Number of questions to display
-
 
     const [text, setText] = useState(""); // Initialize with an empty string
     const [questions, setQuestions] = useState<string[]>([]); // Store question texts
@@ -15,6 +29,16 @@ export function Detailed() {
     const [submittable, setSubmittable] = useState(false); // Track if the questionnaire is complete
     const [popupVisible, setPopupVisible] = useState(false); // Track if the popup is visible
     const [progressString, setProgressString] = useState("0%"); // Initialize progress string
+    const [loading, setLoading] = useState(false); // Track loading state
+
+    const [chatGPTResponse1, setChatGPTResponse1] = useState<string | null>(null); // State to store ChatGPT response
+    const [chatGPTResponse2, setChatGPTResponse2] = useState<string | null>(null); // State to store ChatGPT response
+    const [chatGPTResponse3, setChatGPTResponse3] = useState<string | null>(null); // State to store ChatGPT response
+    const [chatGPTExplain1, setChatGPTExplain1] = useState<string | null>(null); // State to store ChatGPT response
+    const [chatGPTExplain2, setChatGPTExplain2] = useState<string | null>(null); // State to store ChatGPT response
+    const [chatGPTExplain3, setChatGPTExplain3] = useState<string | null>(null); // State to store ChatGPT response
+
+
 
     async function fetchQuestions() {
         try {
@@ -61,9 +85,50 @@ export function Detailed() {
         StoreQuestions.addQuestionsAnswered(questions[questionIndex]);
     }
 
-    function Submitted() {
+    async function Submitted() {
+        setLoading(true); // Set loading state to true
+        let prompt = "You are a career counselor. Based on the following answers, provide only 1 possible career paths. No explaining your choices, just give the answers:\n\n";
+        for (let i = 0; i < LENGTH; i++) {
+            prompt += `Question ${i + 1}: ${questions[i]}\nAnswer: ${selectedVariants[i]}\n\n`;
+        }
+        console.log(prompt);
+        console.log(keyData);
+        let response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: prompt,
+        });
+        setChatGPTResponse1(response.output_text); // Ensure response.text is a string
+        response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: "give me a 3 sentence explaination for the following career path:\n\n" + chatGPTResponse1 + "\n using the prompt: \n" + prompt,
+        });
+        setChatGPTExplain1(response.output_text); // Ensure response.text is a string
+        response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: "give me a possible career path based on the following answers:\n\n" + prompt + "\n\n your answer must be different than " + chatGPTResponse1 + "\n\n",
+        });
+        setChatGPTResponse2(response.output_text); // Ensure response.text is a string
+        response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: "give me a 3 sentence explaination for the following career path:\n\n" + chatGPTResponse2 + "\n using the prompt: \n" + prompt,
+        });
+        setChatGPTExplain2(response.output_text); // Ensure response.text is a string
+        response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: "give me a possible career path based on the following answers:\n\n" + prompt + "\n\n your answer must be different than " + chatGPTResponse1 + " and " + chatGPTResponse2 + "\n\n",
+        });
+        setChatGPTResponse3(response.output_text); // Ensure response.text is a string
+        response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: "give me a 3 sentence explaination for the following career path:\n\n" + chatGPTResponse3 + "\n using the prompt: \n" + prompt,
+        });
+        setChatGPTExplain3(response.output_text); // Ensure response.text is a string
+        
+        setLoading(false); // Set loading state to false
         setPopupVisible(true); // Show the popup
     }
+
+    
 
     return (
         <div className="Detailed">
@@ -124,12 +189,29 @@ export function Detailed() {
                     </Col>
                 </div>
             </div>
-            {popupVisible && (
+            {(popupVisible || loading)  && (
                 <div className="popup-container">
+                    {loading && <div className="loading">Loading...</div>}
                         {popupVisible && (
                             <div className="popup">
-                                <h2>Pop-up Content</h2>
-                                <p>This is the content of the pop-up window.</p>
+                                <h2>Your Results:</h2>
+                                <Row>
+                                    <Col className='Answer 1'>
+                                        <p>{chatGPTResponse1}</p>
+                                        <p>Explaination:</p>
+                                        <p>{chatGPTExplain1}</p>
+                                    </Col>
+                                    <Col className='Answer 2'>
+                                        <p><p>{chatGPTResponse2}</p>
+                                        <p>Explaination:</p>
+                                        <p>{chatGPTExplain2}</p></p>
+                                    </Col>
+                                    <Col className='Answer 3'>
+                                        <p><p>{chatGPTResponse3}</p>
+                                        <p>Explaination:</p>
+                                        <p>{chatGPTExplain3}</p></p>
+                                    </Col>
+                                </Row>
                             </div>
                         )}
                 </div>)}
