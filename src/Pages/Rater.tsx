@@ -121,7 +121,7 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
     }
 
     return <div className='Rater'><div className='Header'><h1>Welcome to the Question Rater!!</h1><div>{questions.length === 0 ? <h2>You have no questions to rate right now.</h2> : ''}</div><div><Link to='/'><Button>Back To Home</Button></Link></div>
-    <div className="progressbar">
+    <div>{ questions.length !== 0 ? <div className="progressbar">
             <div style={{
                 height:"100%",
                 width: `${amountAnswered}%`,
@@ -129,7 +129,7 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
                 transition: "width 0.5s"
             }}>{amountAnswered}%</div>
             {/* <span className="progress">{amountAnswered}%</span> */}
-        </div>
+        </div>: ""}</div>
     </div>
     <div>{questions.map((rateQuestion:ratedQuestion, indexes: number)=> (
         <div className='RaterQuestion'><div className="Description">{rateQuestion.name}{/*, Score: {rateQuestion.score}*/}</div>
@@ -153,7 +153,7 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
     <div>{/*Reason is: {rateQuestion.reason}*/}</div>
         </div>
     ))}</div>
-    <Link to='/'><Button disabled={questions.length === 0} onClick={changeQuestions}>Finish Survey</Button></Link>
+    <div>{ questions.length !==0 ? <Link to='/'><Button disabled={questions.length === 0} onClick={changeQuestions}>Finish Survey</Button></Link>: ""}</div>
     </div>
 }
 /*<div onChange={() => {changeProgress();}}>{ratedQuestions.map((rateQuestion: ratedQuestion) => <RaterQuestion 
