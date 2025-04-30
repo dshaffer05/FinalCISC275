@@ -6,14 +6,36 @@ import './Simple.css'
 import './Detailed.css'
 import { StoreQuestions } from './StoreQuestions';
 
+let API = "";
+let keyData = localStorage.getItem("MYKEY"); // Default to an empty string if not found
+if (keyData !== null) {
+    API = JSON.parse(keyData); // Parse the string to get the actual key
+}
+console.log("Key from local storage: " + API); // Log the key for debugging
+
+const openai = new OpenAI({
+    apiKey: API, // Replace with your actual API key
+    dangerouslyAllowBrowser:(true), // Enable browser usage (not recommended for production)
+  });
+
 export function Simple() {
     const LENGTH = 30; // Number of questions to display
 
 
-    const [text, setText] = useState(""); // Initialize with an empty string
+    cconst [text, setText] = useState(""); // Initialize with an empty string
     const [questions, setQuestions] = useState<string[]>([]); // Store question texts
     const [selectedVariants, setSelectedVariants] = useState<number[]>(Array(LENGTH).fill(-1)); // Track selected button index for each question (-1 means none selected)
     const [submittable, setSubmittable] = useState(false); // Track if the questionnaire is complete
+    const [popupVisible, setPopupVisible] = useState(false); // Track if the popup is visible
+    const [progressString, setProgressString] = useState("0%"); // Initialize progress string
+    const [loading, setLoading] = useState(false); // Track loading state
+
+    const [chatGPTResponse1, setChatGPTResponse1] = useState<string | null>(null); // State to store ChatGPT response
+    const [chatGPTResponse2, setChatGPTResponse2] = useState<string | null>(null); // State to store ChatGPT response
+    const [chatGPTResponse3, setChatGPTResponse3] = useState<string | null>(null); // State to store ChatGPT response
+    const [chatGPTExplain1, setChatGPTExplain1] = useState<string | null>(null); // State to store ChatGPT response
+    const [chatGPTExplain2, setChatGPTExplain2] = useState<string | null>(null); // State to store ChatGPT response
+    const [chatGPTExplain3, setChatGPTExplain3] = useState<string | null>(null); // State to store ChatGPT response
 
 
     const [progressString, setProgressString] = useState("0%"); // Initialize progress string
