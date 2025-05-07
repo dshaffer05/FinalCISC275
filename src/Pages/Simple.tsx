@@ -5,6 +5,7 @@ import { useEffect, useState,} from "react";
 import './Simple.css'
 import './Detailed.css'
 import { StoreQuestions } from './StoreQuestions';
+import OpenAI from 'openai';
 
 let API = "";
 let keyData = localStorage.getItem("MYKEY"); // Default to an empty string if not found
