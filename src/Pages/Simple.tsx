@@ -3,7 +3,6 @@ import { Button, ButtonGroup, Col, Row} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useEffect, useState,} from "react";
 import './Simple.css'
-import './Detailed.css'
 import { StoreQuestions } from './StoreQuestions';
 import OpenAI from 'openai';
 

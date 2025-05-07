@@ -18,9 +18,6 @@ const openai = new OpenAI({
     dangerouslyAllowBrowser:(true), // Enable browser usage (not recommended for production)
   });
 
-  
-
-
 export function Detailed() {
     const LENGTH = 10; // Number of questions to display
 
