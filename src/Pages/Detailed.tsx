@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState,} from "react";
 import './Detailed.css'
 import OpenAI from 'openai';
+import { StoreQuestions } from './StoreQuestions';
 
 let API = "";
 let keyData = localStorage.getItem("MYKEY"); // Default to an empty string if not found
