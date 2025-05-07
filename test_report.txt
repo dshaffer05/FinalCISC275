@@ -48,17 +48,17 @@ All files            |       0 |        0 |       0 |       0 |
   index.tsx          |       0 |      100 |     100 |       0 | 7-19              
   reportWebVitals.ts |       0 |        0 |       0 |       0 | 3-10              
  src/Pages           |       0 |        0 |       0 |       0 |                   
-  Detailed.tsx       |       0 |        0 |       0 |       0 | 9-181             
+  Detailed.tsx       |       0 |        0 |       0 |       0 | 9-178             
   Home.tsx           |       0 |      100 |       0 |       0 | 15                
   ProgBar.tsx        |       0 |        0 |       0 |       0 | 5-6               
   Rater.tsx          |       0 |        0 |       0 |       0 | 20-149            
   RaterQuestion.tsx  |       0 |        0 |       0 |       0 | 5-52              
   Results.tsx        |       0 |      100 |       0 |       0 | 83                
-  Simple.tsx         |       0 |        0 |       0 |       0 | 10-174            
+  Simple.tsx         |       0 |        0 |       0 |       0 | 9-173             
   StoreQuestions.ts  |       0 |      100 |       0 |       0 | 29-62             
 ---------------------|---------|----------|---------|---------|-------------------
 Test Suites: 1 failed, 1 total
 Tests:       0 total
 Snapshots:   0 total
-Time:        3.284 s
+Time:        3.569 s
 Ran all test suites.
