@@ -21,8 +21,7 @@ const openai = new OpenAI({
 export function Simple() {
     const LENGTH = 30; // Number of questions to display
 
-
-    cconst [text, setText] = useState(""); // Initialize with an empty string
+    const [text, setText] = useState(""); // Initialize with an empty string
     const [questions, setQuestions] = useState<string[]>([]); // Store question texts
     const [selectedVariants, setSelectedVariants] = useState<number[]>(Array(LENGTH).fill(-1)); // Track selected button index for each question (-1 means none selected)
     const [submittable, setSubmittable] = useState(false); // Track if the questionnaire is complete
@@ -84,8 +83,47 @@ export function Simple() {
         StoreQuestions.addQuestionsAnswered(questions[questionIndex]);
     }
 
-    function Submitted() {
-        alert(`You have submitted the questionnaire.`);
+    async function Submitted() {
+        setLoading(true); // Set loading state to true
+        let prompt = "You are a career counselor. Based on the following answers, provide only 1 possible career paths. No explaining your choices, just give the answers:\n\n";
+        for (let i = 0; i < LENGTH; i++) {
+            prompt += `Question ${i + 1}: ${questions[i]}\nAnswer: ${selectedVariants[i]}\n\n`;
+        }
+        console.log(prompt);
+        console.log(keyData);
+        let response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: prompt,
+        });
+        setChatGPTResponse1(response.output_text); // Ensure response.text is a string
+        response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: "give me a 3 sentence explaination for the following career path:\n\n" + chatGPTResponse1 + "\n using the prompt: \n" + prompt,
+        });
+        setChatGPTExplain1(response.output_text); // Ensure response.text is a string
+        response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: "give me a possible career path based on the following answers:\n\n" + prompt + "\n\n your answer must be different than " + chatGPTResponse1 + "\n\n",
+        });
+        setChatGPTResponse2(response.output_text); // Ensure response.text is a string
+        response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: "give me a 3 sentence explaination for the following career path:\n\n" + chatGPTResponse2 + "\n using the prompt: \n" + prompt,
+        });
+        setChatGPTExplain2(response.output_text); // Ensure response.text is a string
+        response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: "give me a possible career path based on the following answers:\n\n" + prompt + "\n\n your answer must be different than " + chatGPTResponse1 + " and " + chatGPTResponse2 + "\n\n",
+        });
+        setChatGPTResponse3(response.output_text); // Ensure response.text is a string
+        response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: "give me a 3 sentence explaination for the following career path:\n\n" + chatGPTResponse3 + "\n using the prompt: \n" + prompt,
+        });
+        setChatGPTExplain3(response.output_text); // Ensure response.text is a string
+        
+        setLoading(false); // Set loading state to false
+        setPopupVisible(true); // Show the popup
     }
 
     return (
@@ -136,7 +174,7 @@ export function Simple() {
                                                 id={idx.toString()}
                                                 onClick={() => handleButtonClick(i, idx)} // Pass question index and button index
                                             >
-                                                {label}
+                                                {idx + 1}
                                             </Button>
                                         ))}
                                     </ButtonGroup>
@@ -146,6 +184,32 @@ export function Simple() {
                     </Col>
                 </div>
             </div>
+            {(popupVisible || loading)  && (
+                <div className="popup-container">
+                    {loading && <div className="loading">Loading...</div>}
+                        {popupVisible && (
+                            <div className="popup">
+                                <h2>Your Results:</h2>
+                                <Row>
+                                    <Col className='Answer 1'>
+                                        <p>{chatGPTResponse1}</p>
+                                        <p>Explaination:</p>
+                                        <p>{chatGPTExplain1}</p>
+                                    </Col>
+                                    <Col className='Answer 2'>
+                                        <p><p>{chatGPTResponse2}</p>
+                                        <p>Explaination:</p>
+                                        <p>{chatGPTExplain2}</p></p>
+                                    </Col>
+                                    <Col className='Answer 3'>
+                                        <p><p>{chatGPTResponse3}</p>
+                                        <p>Explaination:</p>
+                                        <p>{chatGPTExplain3}</p></p>
+                                    </Col>
+                                </Row>
+                            </div>
+                        )}
+                </div>)}
         </div>
     );
 }
