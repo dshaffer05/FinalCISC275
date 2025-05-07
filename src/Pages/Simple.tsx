@@ -37,8 +37,6 @@ export function Simple() {
     const [chatGPTExplain3, setChatGPTExplain3] = useState<string | null>(null); // State to store ChatGPT response
 
 
-    const [progressString, setProgressString] = useState("0%"); // Initialize progress string
-
     async function fetchQuestions() {
         try {
             const response = await fetch(`./simpleQuestions.txt`);
