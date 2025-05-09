@@ -19,7 +19,7 @@ const openai = new OpenAI({
   });
 
 export function Detailed() {
-    const LENGTH = 10; // Number of questions to display
+    const LENGTH = 30; // Number of questions to display
 
     const [text, setText] = useState(""); // Initialize with an empty string
     const [questions, setQuestions] = useState<string[]>([]); // Store question texts
@@ -85,43 +85,66 @@ export function Detailed() {
 
     async function Submitted() {
         setLoading(true); // Set loading state to true
-        let prompt = "You are a career counselor. Based on the following answers, provide only 1 possible career paths. No explaining your choices, just give the answers:\n\n";
+        let prompt = "You are a career counselor. Based on the following answers to a career quiz, \n\n";
         for (let i = 0; i < LENGTH; i++) {
             prompt += `Question ${i + 1}: ${questions[i]}\nAnswer: ${selectedVariants[i]}\n\n`;
         }
         console.log(prompt);
         console.log(keyData);
-        let response = await openai.responses.create({
-            model: "gpt-4.1",
-            input: prompt,
-        });
-        setChatGPTResponse1(response.output_text); // Ensure response.text is a string
-        response = await openai.responses.create({
-            model: "gpt-4.1",
-            input: "give me a 3 sentence explaination for the following career path:\n\n" + chatGPTResponse1 + "\n using the prompt: \n" + prompt,
-        });
-        setChatGPTExplain1(response.output_text); // Ensure response.text is a string
-        response = await openai.responses.create({
-            model: "gpt-4.1",
-            input: "give me a possible career path based on the following answers:\n\n" + prompt + "\n\n your answer must be different than " + chatGPTResponse1 + "\n\n",
-        });
-        setChatGPTResponse2(response.output_text); // Ensure response.text is a string
-        response = await openai.responses.create({
-            model: "gpt-4.1",
-            input: "give me a 3 sentence explaination for the following career path:\n\n" + chatGPTResponse2 + "\n using the prompt: \n" + prompt,
-        });
-        setChatGPTExplain2(response.output_text); // Ensure response.text is a string
-        response = await openai.responses.create({
-            model: "gpt-4.1",
-            input: "give me a possible career path based on the following answers:\n\n" + prompt + "\n\n your answer must be different than " + chatGPTResponse1 + " and " + chatGPTResponse2 + "\n\n",
-        });
-        setChatGPTResponse3(response.output_text); // Ensure response.text is a string
-        response = await openai.responses.create({
-            model: "gpt-4.1",
-            input: "give me a 3 sentence explaination for the following career path:\n\n" + chatGPTResponse3 + "\n using the prompt: \n" + prompt,
-        });
-        setChatGPTExplain3(response.output_text); // Ensure response.text is a string
-        
+    
+        try {
+            // First response
+            let response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "provide only 1 possible career paths. No explaining your choice, just give the answer",
+            });
+            const response1 = response.output_text; // Store the first response
+            setChatGPTResponse1(response1);
+    
+            // Second response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "give me a 2 sentence explanation for why the following career path aligns with my answers: " + response1,
+            });
+            const explanation1 = response.output_text; // Store the first explanation
+            setChatGPTExplain1(explanation1);
+    
+            // Third response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "provide only 1 possible career paths. No explaining your choice, just give the answer. Your answer must be different than " + response1,
+            });
+            const response2 = response.output_text; // Store the second response
+            setChatGPTResponse2(response2);
+    
+            // Fourth response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "give me a 2 sentence explanation for why the following career path aligns with my answers: " + response2,
+            });
+            const explanation2 = response.output_text; // Store the second explanation
+            setChatGPTExplain2(explanation2);
+    
+            // Fifth response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "provide only 1 possible career paths. No explaining your choice, just give the answer. Your answer must be different than " + response1 + " and " + response2,
+            });
+            const response3 = response.output_text; // Store the third response
+            setChatGPTResponse3(response3);
+    
+            // Sixth response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "give me a 2 sentence explanation for why the following career path aligns with my answers: " + response3,
+            });
+            const explanation3 = response.output_text; // Store the third explanation
+            setChatGPTExplain3(explanation3);
+    
+        } catch (error) {
+            console.error("Error with OpenAI API:", error);
+        }
+    
         setLoading(false); // Set loading state to false
         setPopupVisible(true); // Show the popup
     }
