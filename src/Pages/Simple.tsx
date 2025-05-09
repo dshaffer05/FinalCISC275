@@ -172,7 +172,7 @@ export function Simple() {
                                                 id={idx.toString()}
                                                 onClick={() => handleButtonClick(i, idx)} // Pass question index and button index
                                             >
-                                                {idx + 1}
+                                                {label}
                                             </Button>
                                         ))}
                                     </ButtonGroup>
