@@ -54,11 +54,11 @@ All files            |       0 |        0 |       0 |       0 |
   Rater.tsx          |       0 |        0 |       0 |       0 | 20-149            
   RaterQuestion.tsx  |       0 |        0 |       0 |       0 | 5-52              
   Results.tsx        |       0 |      100 |       0 |       0 | 83                
-  Simple.tsx         |       0 |        0 |       0 |       0 | 9-173             
+  Simple.tsx         |       0 |        0 |       0 |       0 | 9-196             
   StoreQuestions.ts  |       0 |      100 |       0 |       0 | 29-62             
 ---------------------|---------|----------|---------|---------|-------------------
 Test Suites: 1 failed, 1 total
 Tests:       0 total
 Snapshots:   0 total
-Time:        3.439 s
+Time:        3.684 s
 Ran all test suites.
