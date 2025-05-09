@@ -160,7 +160,7 @@ export function Simple() {
                                 <h5 className="Question">{question}</h5>
                                 <Row>
                                     <ButtonGroup className="Button-Group" id={(i + 1).toString()}>
-                                        {["No", "Yes"].map((label, idx) => (
+                                        {["Yes", "No"].map((label, idx) => ( //map yes & no to 1 & 2 on the buttons
                                             <Button
                                                 key={idx}
                                                 variant={

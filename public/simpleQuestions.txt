@@ -98,3 +98,59 @@ Do you want to work in a creative industry like film, music, or design?
 Would you enjoy working in healthcare?
 Would you enjoy working in construction or trades?
 Would you enjoy working in a lab or research setting?
+Do you enjoy working independently without supervision?
+Do you find it easy to stay focused on detailed tasks?
+Do you enjoy working in customer service roles?
+Do you like helping others choose clothing or accessories?
+Do you enjoy being around plants or gardening?
+Do you like being physically active through sports or exercise?
+Do you enjoy meeting new people regularly?
+Do you like discussing politics or government policies?
+Do you feel comfortable persuading people to buy something?
+Do you prefer working with physical tools or equipment?
+Do you enjoy cooking or baking for yourself or others?
+Do you enjoy writing articles, blogs, or social media posts?
+Do you feel comfortable dealing with conflict situations?
+Do you prefer working primarily during the night?
+Do you enjoy managing or creating content for social media?
+Do you prefer jobs that limit technology use?
+Do you like analyzing financial information or reports?
+Do you feel comfortable in settings that require cleanliness or sanitation?
+Do you prefer physically demanding work over desk jobs?
+Do you enjoy taking photos or making videos?
+Do you feel confident negotiating with others?
+Do you like the idea of protecting or helping people stay safe?
+Do you find it easy to connect with children?
+Do you like doing your own or others' makeup?
+Do you enjoy tasks that require careful precision?
+Do you like helping friends talk through emotional issues?
+Do you feel comfortable performing repetitive physical tasks?
+Do you enjoy planning efficient routes or schedules?
+Do you like being involved in stage productions or films?
+Do you feel confident managing other people's schedules or tasks?
+Do you enjoy learning about airplanes or flying?
+Do you like keeping detailed records or notes?
+Do you enjoy arranging furniture or decorating rooms?
+Do you enjoy solving computer security issues or puzzles?
+Do you feel confident teaching or training others?
+Do you like exploring natural environments regularly?
+Do you feel comfortable handling confidential information?
+Do you enjoy working with your hands on craft projects?
+Do you like experimenting to discover new things?
+Do you feel comfortable ensuring other people's safety?
+Do you enjoy sharing information publicly, like in news or podcasts?
+Do you enjoy roles that involve regular public interactions?
+Do you find satisfaction in keeping things organized and orderly?
+Do you enjoy coordinating details for social gatherings or events?
+Do you enjoy actively listening to others’ concerns?
+Do you handle stressful or risky situations calmly?
+Do you enjoy helping people fix technical problems?
+Do you enjoy learning about space or astronomy?
+Do you enjoy observing or studying sea life?
+Do you like learning about historical events or places?
+Are you comfortable handling confidential information?
+Are you interested in fashion or personal styling?
+Are you interested in careers involving sports?
+Are you comfortable dealing with conflict?
+Are you comfortable being responsible for others' safety?
+Are you interested in working with marine life?
