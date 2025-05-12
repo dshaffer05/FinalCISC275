@@ -22,7 +22,7 @@ const openai = new OpenAI({
 
 
 export function Simple() {
-    const LENGTH = 10; // Number of questions to display
+    const LENGTH = 40; // Number of questions to display
 
     const [text, setText] = useState(""); // Initialize with an empty string
     const [questions, setQuestions] = useState<string[]>(shuffleArray([...StoreQuestions.getSimple()]).slice(0,LENGTH)); // Store question texts
