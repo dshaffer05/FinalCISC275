@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState,} from "react";
 import './Detailed.css'
 import OpenAI from 'openai';
+import { StoreQuestions } from './StoreQuestions';
+
 
 let API = "";
 let keyData = localStorage.getItem("MYKEY"); // Default to an empty string if not found
@@ -24,7 +26,7 @@ export function Detailed() {
     const LENGTH = 10; // Number of questions to display
 
     const [text, setText] = useState(""); // Initialize with an empty string
-    const [questions, setQuestions] = useState<string[]>([]); // Store question texts
+    const [questions, setQuestions] = useState<string[]>(shuffleArray([...StoreQuestions.getDetailed()]).slice(0,LENGTH)); // Store question texts
     const [selectedVariants, setSelectedVariants] = useState<number[]>(Array(LENGTH).fill(-1)); // Track selected button index for each question (-1 means none selected)
     const [submittable, setSubmittable] = useState(false); // Track if the questionnaire is complete
     const [popupVisible, setPopupVisible] = useState(false); // Track if the popup is visible
@@ -52,15 +54,28 @@ export function Detailed() {
 
     useEffect(() => {
         fetchQuestions();
+        //StoreQuestions.setDetailed(text.split("\n").filter((q) => q.trim() !== "").map((q) => q.trim()));
+        console.log("here?");
+        setText(StoreQuestions.getDetailed().join("\n"));
+        console.log("detailed: "+StoreQuestions.getDetailed().length);
     }, []); // Fetch questions only once when the component mounts
 
     useEffect(() => {
-        const questionList = text
+        /*const questionList = text
             .split("\n")
             .filter((q) => q.trim() !== "")
-            .map((q) => q.trim());
-        const shuffledQuestions = shuffleArray(questionList); // Shuffle the questions
+            .map((q) => q.trim());*/
+            //const questionList = StoreQuestions.getDetailed();
+        /*const shuffledQuestions = shuffleArray(questionList); // Shuffle the questions
         setQuestions(shuffledQuestions.slice(0, LENGTH)); // Store the first 30 shuffled questions
+        StoreQuestions.setDetailed(shuffledQuestions);*/
+        //const shuffledQuestions = shuffleArray(questions);
+        //setQuestions(shuffledQuestions.slice(0, LENGTH));
+        //setQuestions(shuffleArray(StoreQuestions.getDetailed().slice(0,LENGTH)))
+        console.log("length: "+StoreQuestions.getDetailed().length);
+        /*for(let i = 0; i < StoreQuestions.getDetailed().length; i++){
+            console.log(i+": "+StoreQuestions.getDetailed()[i]);
+        }*/
     }, [LENGTH, text]); // Update questions only when `text` changes
 
     function shuffleArray(array: string[]): string[] {
@@ -72,6 +87,7 @@ export function Detailed() {
     }
 
     function handleButtonClick(questionIndex: number, buttonIndex: number) {
+        setQuestions([...questions]);
         const newVariants = [...selectedVariants];
         newVariants[questionIndex] = buttonIndex + 1; // Store the selected button value (1-10)
         setSelectedVariants(newVariants);
@@ -82,6 +98,7 @@ export function Detailed() {
         const progressPercentage = ((progress / LENGTH) * 100).toFixed(2); // Calculate progress percentage
         setProgressString(`${progressPercentage}%`); // Update progressString state
         setSubmittable(progress === LENGTH); // Update submittable state
+        StoreQuestions.addQuestionsAnswered(questions[questionIndex]);
     }
 
     async function Submitted() {
@@ -92,36 +109,63 @@ export function Detailed() {
         }
         console.log(prompt);
         console.log(keyData);
-        let response = await openai.responses.create({
+        /*let response = await openai.responses.create({
             model: "gpt-4.1",
             input: prompt,
-        });
-        setChatGPTResponse1(response.output_text); // Ensure response.text is a string
-        response = await openai.responses.create({
-            model: "gpt-4.1",
-            input: "give me a 3 sentence explaination for the following career path:\n\n" + chatGPTResponse1 + "\n using the prompt: \n" + prompt,
-        });
-        setChatGPTExplain1(response.output_text); // Ensure response.text is a string
-        response = await openai.responses.create({
-            model: "gpt-4.1",
-            input: "give me a possible career path based on the following answers:\n\n" + prompt + "\n\n your answer must be different than " + chatGPTResponse1 + "\n\n",
-        });
-        setChatGPTResponse2(response.output_text); // Ensure response.text is a string
-        response = await openai.responses.create({
-            model: "gpt-4.1",
-            input: "give me a 3 sentence explaination for the following career path:\n\n" + chatGPTResponse2 + "\n using the prompt: \n" + prompt,
-        });
-        setChatGPTExplain2(response.output_text); // Ensure response.text is a string
-        response = await openai.responses.create({
-            model: "gpt-4.1",
-            input: "give me a possible career path based on the following answers:\n\n" + prompt + "\n\n your answer must be different than " + chatGPTResponse1 + " and " + chatGPTResponse2 + "\n\n",
-        });
-        setChatGPTResponse3(response.output_text); // Ensure response.text is a string
-        response = await openai.responses.create({
-            model: "gpt-4.1",
-            input: "give me a 3 sentence explaination for the following career path:\n\n" + chatGPTResponse3 + "\n using the prompt: \n" + prompt,
-        });
-        setChatGPTExplain3(response.output_text); // Ensure response.text is a string
+        });*/
+
+        try {
+            // First response
+            let response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "provide only 1 possible career paths. No explaining your choice, just give the answer",
+            });
+            const response1 = response.output_text; // Store the first response
+            setChatGPTResponse1(response1);
+    
+            // Second response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "give me a 2 sentence explanation for why the following career path aligns with my answers: " + response1,
+            });
+            const explanation1 = response.output_text; // Store the first explanation
+            setChatGPTExplain1(explanation1);
+    
+            // Third response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "provide only 1 possible career paths. No explaining your choice, just give the answer. Your answer must be different than " + response1,
+            });
+            const response2 = response.output_text; // Store the second response
+            setChatGPTResponse2(response2);
+    
+            // Fourth response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "give me a 2 sentence explanation for why the following career path aligns with my answers: " + response2,
+            });
+            const explanation2 = response.output_text; // Store the second explanation
+            setChatGPTExplain2(explanation2);
+    
+            // Fifth response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "provide only 1 possible career paths. No explaining your choice, just give the answer. Your answer must be different than " + response1 + " and " + response2,
+            });
+            const response3 = response.output_text; // Store the third response
+            setChatGPTResponse3(response3);
+    
+            // Sixth response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "give me a 2 sentence explanation for why the following career path aligns with my answers: " + response3,
+            });
+            const explanation3 = response.output_text; // Store the third explanation
+            setChatGPTExplain3(explanation3);
+    
+        } catch (error) {
+            console.error("Error with OpenAI API:", error);
+        }
         
         setLoading(false); // Set loading state to false
         setPopupVisible(true); // Show the popup

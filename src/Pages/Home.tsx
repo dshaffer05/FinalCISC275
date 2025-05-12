@@ -14,7 +14,7 @@ export function Home(){
   }*/
     return <div className='Home'><header className="Home-header">
     <h1>
-      The Career Helpi
+      The Career Companion
     </h1>
   </header>
   <div className='Questionnaire-Selection'>

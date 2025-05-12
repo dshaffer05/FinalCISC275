@@ -3,8 +3,8 @@ import { Button, ButtonGroup, Col, Row} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useEffect, useState,} from "react";
 import './Simple.css'
-import './Detailed.css'
 import { StoreQuestions } from './StoreQuestions';
+import OpenAI from 'openai';
 
 let API = "";
 let keyData = localStorage.getItem("MYKEY"); // Default to an empty string if not found
@@ -18,12 +18,14 @@ const openai = new OpenAI({
     dangerouslyAllowBrowser:(true), // Enable browser usage (not recommended for production)
   });
 
+
+
+
 export function Simple() {
     const LENGTH = 30; // Number of questions to display
 
-
-    cconst [text, setText] = useState(""); // Initialize with an empty string
-    const [questions, setQuestions] = useState<string[]>([]); // Store question texts
+    const [text, setText] = useState(""); // Initialize with an empty string
+    const [questions, setQuestions] = useState<string[]>(shuffleArray([...StoreQuestions.getSimple()]).slice(0,LENGTH)); // Store question texts
     const [selectedVariants, setSelectedVariants] = useState<number[]>(Array(LENGTH).fill(-1)); // Track selected button index for each question (-1 means none selected)
     const [submittable, setSubmittable] = useState(false); // Track if the questionnaire is complete
     const [popupVisible, setPopupVisible] = useState(false); // Track if the popup is visible
@@ -38,8 +40,6 @@ export function Simple() {
     const [chatGPTExplain3, setChatGPTExplain3] = useState<string | null>(null); // State to store ChatGPT response
 
 
-    const [progressString, setProgressString] = useState("0%"); // Initialize progress string
-
     async function fetchQuestions() {
         try {
             const response = await fetch(`./simpleQuestions.txt`);
@@ -52,15 +52,16 @@ export function Simple() {
 
     useEffect(() => {
         fetchQuestions();
+        setText(StoreQuestions.getSimple().join("\n"));
     }, []); // Fetch questions only once when the component mounts
 
     useEffect(() => {
-        const questionList = text
+        /*const questionList = text
             .split("\n")
             .filter((q) => q.trim() !== "")
-            .map((q) => q.trim());
-        const shuffledQuestions = shuffleArray(questionList); // Shuffle the questions
-        setQuestions(shuffledQuestions.slice(0, LENGTH)); // Store the first 30 shuffled questions
+            .map((q) => q.trim());*/
+        //const shuffledQuestions = shuffleArray(questionList); // Shuffle the questions
+        //setQuestions(shuffledQuestions.slice(0, LENGTH)); // Store the first 30 shuffled questions
     }, [LENGTH, text]); // Update questions only when `text` changes
 
     function shuffleArray(array: string[]): string[] {
@@ -72,6 +73,7 @@ export function Simple() {
     }
 
     function handleButtonClick(questionIndex: number, buttonIndex: number) {
+        setQuestions([...questions]);
         const newVariants = [...selectedVariants];
         newVariants[questionIndex] = buttonIndex + 1; // Store the selected button value (1-10)
         setSelectedVariants(newVariants);
@@ -84,8 +86,75 @@ export function Simple() {
         StoreQuestions.addQuestionsAnswered(questions[questionIndex]);
     }
 
-    function Submitted() {
-        alert(`You have submitted the questionnaire.`);
+    async function Submitted() {
+        setLoading(true); // Set loading state to true
+        let prompt = "You are a career counselor. Based on the following answers to a career quiz, \n\n";
+        for (let i = 0; i < LENGTH; i++) {
+            prompt += `Question ${i + 1}: ${questions[i]}\nAnswer: ${selectedVariants[i]}\n\n`;
+        }
+        console.log(prompt);
+        console.log(keyData);
+
+        /*let response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: prompt,
+        });*/
+
+        try {
+            // First response
+            let response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "provide only 1 possible career paths. No explaining your choice, just give the answer",
+            });
+            const response1 = response.output_text; // Store the first response
+            setChatGPTResponse1(response1);
+    
+            // Second response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "give me a 2 sentence explanation for why the following career path aligns with my answers: " + response1,
+            });
+            const explanation1 = response.output_text; // Store the first explanation
+            setChatGPTExplain1(explanation1);
+    
+            // Third response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "provide only 1 possible career paths. No explaining your choice, just give the answer. Your answer must be different than " + response1,
+            });
+            const response2 = response.output_text; // Store the second response
+            setChatGPTResponse2(response2);
+    
+            // Fourth response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "give me a 2 sentence explanation for why the following career path aligns with my answers: " + response2,
+            });
+            const explanation2 = response.output_text; // Store the second explanation
+            setChatGPTExplain2(explanation2);
+    
+            // Fifth response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "provide only 1 possible career paths. No explaining your choice, just give the answer. Your answer must be different than " + response1 + " and " + response2,
+            });
+            const response3 = response.output_text; // Store the third response
+            setChatGPTResponse3(response3);
+    
+            // Sixth response
+            response = await openai.responses.create({
+                model: "gpt-4.1",
+                input: prompt + "give me a 2 sentence explanation for why the following career path aligns with my answers: " + response3,
+            });
+            const explanation3 = response.output_text; // Store the third explanation
+            setChatGPTExplain3(explanation3);
+    
+        } catch (error) {
+            console.error("Error with OpenAI API:", error);
+        }
+    
+        setLoading(false); // Set loading state to false
+        setPopupVisible(true); // Show the popup
     }
 
     return (
@@ -124,7 +193,7 @@ export function Simple() {
                                 <h5 className="Question">{question}</h5>
                                 <Row>
                                     <ButtonGroup className="Button-Group" id={(i + 1).toString()}>
-                                        {["No", "Yes"].map((label, idx) => (
+                                        {["Yes", "No"].map((label, idx) => ( //map yes & no to 1 & 2 on the buttons
                                             <Button
                                                 key={idx}
                                                 variant={
@@ -146,6 +215,32 @@ export function Simple() {
                     </Col>
                 </div>
             </div>
+            {(popupVisible || loading)  && (
+                <div className="popup-container">
+                    {loading && <div className="loading">Loading...</div>}
+                        {popupVisible && (
+                            <div className="popup">
+                                <h2>Your Results:</h2>
+                                <Row>
+                                    <Col className='Answer 1'>
+                                        <p>{chatGPTResponse1}</p>
+                                        <p>Explaination:</p>
+                                        <p>{chatGPTExplain1}</p>
+                                    </Col>
+                                    <Col className='Answer 2'>
+                                        <p><p>{chatGPTResponse2}</p>
+                                        <p>Explaination:</p>
+                                        <p>{chatGPTExplain2}</p></p>
+                                    </Col>
+                                    <Col className='Answer 3'>
+                                        <p><p>{chatGPTResponse3}</p>
+                                        <p>Explaination:</p>
+                                        <p>{chatGPTExplain3}</p></p>
+                                    </Col>
+                                </Row>
+                            </div>
+                        )}
+                </div>)}
         </div>
     );
 }
