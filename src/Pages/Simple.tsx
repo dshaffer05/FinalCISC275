@@ -18,11 +18,14 @@ const openai = new OpenAI({
     dangerouslyAllowBrowser:(true), // Enable browser usage (not recommended for production)
   });
 
+
+
+
 export function Simple() {
     const LENGTH = 10; // Number of questions to display
 
     const [text, setText] = useState(""); // Initialize with an empty string
-    const [questions, setQuestions] = useState<string[]>([]); // Store question texts
+    const [questions, setQuestions] = useState<string[]>(shuffleArray([...StoreQuestions.getSimple()]).slice(0,LENGTH)); // Store question texts
     const [selectedVariants, setSelectedVariants] = useState<number[]>(Array(LENGTH).fill(-1)); // Track selected button index for each question (-1 means none selected)
     const [submittable, setSubmittable] = useState(false); // Track if the questionnaire is complete
     const [popupVisible, setPopupVisible] = useState(false); // Track if the popup is visible
@@ -49,15 +52,16 @@ export function Simple() {
 
     useEffect(() => {
         fetchQuestions();
+        setText(StoreQuestions.getSimple().join("\n"));
     }, []); // Fetch questions only once when the component mounts
 
     useEffect(() => {
-        const questionList = text
+        /*const questionList = text
             .split("\n")
             .filter((q) => q.trim() !== "")
-            .map((q) => q.trim());
-        const shuffledQuestions = shuffleArray(questionList); // Shuffle the questions
-        setQuestions(shuffledQuestions.slice(0, LENGTH)); // Store the first 30 shuffled questions
+            .map((q) => q.trim());*/
+        //const shuffledQuestions = shuffleArray(questionList); // Shuffle the questions
+        //setQuestions(shuffledQuestions.slice(0, LENGTH)); // Store the first 30 shuffled questions
     }, [LENGTH, text]); // Update questions only when `text` changes
 
     function shuffleArray(array: string[]): string[] {
@@ -69,6 +73,7 @@ export function Simple() {
     }
 
     function handleButtonClick(questionIndex: number, buttonIndex: number) {
+        setQuestions([...questions]);
         const newVariants = [...selectedVariants];
         newVariants[questionIndex] = buttonIndex + 1; // Store the selected button value (1-10)
         setSelectedVariants(newVariants);
@@ -89,7 +94,12 @@ export function Simple() {
         }
         console.log(prompt);
         console.log(keyData);
-    
+
+        /*let response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: prompt,
+        });*/
+
         try {
             // First response
             let response = await openai.responses.create({

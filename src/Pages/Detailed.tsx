@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState,} from "react";
 import './Detailed.css'
 import OpenAI from 'openai';
-import { StoreQuestions } from './StoreQuestions';
+import { StoreQuestions } from './StoreQuestions'
 
 let API = "";
 let keyData = localStorage.getItem("MYKEY"); // Default to an empty string if not found
@@ -22,7 +22,7 @@ export function Detailed() {
     const LENGTH = 30; // Number of questions to display
 
     const [text, setText] = useState(""); // Initialize with an empty string
-    const [questions, setQuestions] = useState<string[]>([]); // Store question texts
+    const [questions, setQuestions] = useState<string[]>(shuffleArray([...StoreQuestions.getDetailed()]).slice(0,LENGTH)); // Store question texts
     const [selectedVariants, setSelectedVariants] = useState<number[]>(Array(LENGTH).fill(-1)); // Track selected button index for each question (-1 means none selected)
     const [submittable, setSubmittable] = useState(false); // Track if the questionnaire is complete
     const [popupVisible, setPopupVisible] = useState(false); // Track if the popup is visible
@@ -50,15 +50,28 @@ export function Detailed() {
 
     useEffect(() => {
         fetchQuestions();
+        //StoreQuestions.setDetailed(text.split("\n").filter((q) => q.trim() !== "").map((q) => q.trim()));
+        console.log("here?");
+        setText(StoreQuestions.getDetailed().join("\n"));
+        console.log("detailed: "+StoreQuestions.getDetailed().length);
     }, []); // Fetch questions only once when the component mounts
 
     useEffect(() => {
-        const questionList = text
+        /*const questionList = text
             .split("\n")
             .filter((q) => q.trim() !== "")
-            .map((q) => q.trim());
-        const shuffledQuestions = shuffleArray(questionList); // Shuffle the questions
+            .map((q) => q.trim());*/
+            //const questionList = StoreQuestions.getDetailed();
+        /*const shuffledQuestions = shuffleArray(questionList); // Shuffle the questions
         setQuestions(shuffledQuestions.slice(0, LENGTH)); // Store the first 30 shuffled questions
+        StoreQuestions.setDetailed(shuffledQuestions);*/
+        //const shuffledQuestions = shuffleArray(questions);
+        //setQuestions(shuffledQuestions.slice(0, LENGTH));
+        //setQuestions(shuffleArray(StoreQuestions.getDetailed().slice(0,LENGTH)))
+        console.log("length: "+StoreQuestions.getDetailed().length);
+        /*for(let i = 0; i < StoreQuestions.getDetailed().length; i++){
+            console.log(i+": "+StoreQuestions.getDetailed()[i]);
+        }*/
     }, [LENGTH, text]); // Update questions only when `text` changes
 
     function shuffleArray(array: string[]): string[] {
@@ -70,6 +83,7 @@ export function Detailed() {
     }
 
     function handleButtonClick(questionIndex: number, buttonIndex: number) {
+        setQuestions([...questions]);
         const newVariants = [...selectedVariants];
         newVariants[questionIndex] = buttonIndex + 1; // Store the selected button value (1-10)
         setSelectedVariants(newVariants);
@@ -91,7 +105,10 @@ export function Detailed() {
         }
         console.log(prompt);
         console.log(keyData);
-    
+        /*let response = await openai.responses.create({
+            model: "gpt-4.1",
+            input: prompt,
+        });*/
         try {
             // First response
             let response = await openai.responses.create({
@@ -144,7 +161,6 @@ export function Detailed() {
         } catch (error) {
             console.error("Error with OpenAI API:", error);
         }
-    
         setLoading(false); // Set loading state to false
         setPopupVisible(true); // Show the popup
     }
