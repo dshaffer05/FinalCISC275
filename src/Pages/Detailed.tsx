@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState,} from "react";
 import './Detailed.css'
 import OpenAI from 'openai';
-import { StoreQuestions } from './StoreQuestions';
-
+import { StoreQuestions } from './StoreQuestions'
 
 let API = "";
 let keyData = localStorage.getItem("MYKEY"); // Default to an empty string if not found
@@ -19,11 +18,8 @@ const openai = new OpenAI({
     dangerouslyAllowBrowser:(true), // Enable browser usage (not recommended for production)
   });
 
-  
-
-
 export function Detailed() {
-    const LENGTH = 10; // Number of questions to display
+    const LENGTH = 30; // Number of questions to display
 
     const [text, setText] = useState(""); // Initialize with an empty string
     const [questions, setQuestions] = useState<string[]>(shuffleArray([...StoreQuestions.getDetailed()]).slice(0,LENGTH)); // Store question texts
@@ -103,7 +99,7 @@ export function Detailed() {
 
     async function Submitted() {
         setLoading(true); // Set loading state to true
-        let prompt = "You are a career counselor. Based on the following answers, provide only 1 possible career paths. No explaining your choices, just give the answers:\n\n";
+        let prompt = "You are a career counselor. Based on the following answers to a career quiz, \n\n";
         for (let i = 0; i < LENGTH; i++) {
             prompt += `Question ${i + 1}: ${questions[i]}\nAnswer: ${selectedVariants[i]}\n\n`;
         }
@@ -113,7 +109,6 @@ export function Detailed() {
             model: "gpt-4.1",
             input: prompt,
         });*/
-
         try {
             // First response
             let response = await openai.responses.create({
@@ -166,7 +161,6 @@ export function Detailed() {
         } catch (error) {
             console.error("Error with OpenAI API:", error);
         }
-        
         setLoading(false); // Set loading state to false
         setPopupVisible(true); // Show the popup
     }
