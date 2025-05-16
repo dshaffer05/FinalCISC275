@@ -83,7 +83,9 @@ export function Simple() {
         const progressPercentage = ((progress / LENGTH) * 100).toFixed(2); // Calculate progress percentage
         setProgressString(`${progressPercentage}%`); // Update progressString state
         setSubmittable(progress === LENGTH); // Update submittable state
-        StoreQuestions.addQuestionsAnswered(questions[questionIndex]);
+        if(!StoreQuestions.getQuestionsAnswered().includes(questions[questionIndex])){
+            StoreQuestions.addQuestionsAnswered(questions[questionIndex]);
+        }
     }
 
     async function Submitted() {
