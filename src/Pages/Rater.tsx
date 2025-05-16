@@ -285,7 +285,7 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
         setPopupVisible(false);
     }
 
-    return <div className='Rater'><div className='Header'><h1>Welcome to the Question Rater!</h1><div>{questions.length === 0 ? <h2>You have no questions to rate right now.</h2> : ''}</div><div><Link to='/'><Button>Back To Home</Button></Link></div>
+    return <div className='Rater'><div className='Header'><h1>Welcome to the Question Rater!</h1><div>{questions.length === 0 ? <h2>You have no questions to rate right now.</h2> : ''}</div><div className='home-button'><Link to='/'><Button>Back To Home</Button></Link></div>
     <div>{ questions.length !== 0 ? <div className="progressbar">
             <div style={{
                 height:"100%",
@@ -318,7 +318,7 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
     <div>{/*Reason is: {rateQuestion.reason}*/}</div>
         </div>
     ))}</div>: ""}
-    <div>{ questions.length !==0 ? <Button disabled={questions.length === 0} onClick={changeQuestions}>Finish Survey</Button>: ""}</div>
+    <div className='finish-survey'>{ questions.length !==0 ? <Button disabled={questions.length === 0} onClick={changeQuestions}>Finish Survey</Button>: ""}</div>
     {(popupVisible || loading) && (<div className='popup-container'>{loading && <div className="loading">Loading...</div>}{popupVisible && (<div className='popup'>Thank you for submitting your feedback! <div><Link to='/'><Button onClick={turnOffPopup}>Back to Home</Button></Link></div></div>)}</div>)}
     </div>
 }
