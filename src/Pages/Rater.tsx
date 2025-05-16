@@ -42,6 +42,8 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
     const [progressAmount, setProgressAmount] = useState<boolean[]>([...progress]);
     const [amountAnswered, setAmountAnswered] = useState<number>(0);
     const [questions, setQuestions] = useState<ratedQuestion[]>([...ratedQuestions]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [popupVisible, setPopupVisible] = useState<boolean>(false);
     const handleRadio = (index: number, event: React.MouseEvent<HTMLInputElement>) => {
         let tempQuestions = [...questions];
         tempQuestions[index].keep = false;
@@ -81,23 +83,8 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
         setQuestions(tempQuestions);
         //setReason(event.target.value);
     };
-    /*const run = async (data: string) => {
-        await fetch('http://localhost:3000/save', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content: data })
-          });
-        try {
-            const newString = new StringModel({ content: data });
-            const saved = await newString.save();                
-            console.log('Saved:', saved);
-            return saved;
-          } catch (err) {
-            console.error('Save failed:', err);
-            throw err;
-          }
-    }*/
     async function changeQuestions(){
+        setLoading(true);
         //console.log("successfully entered function");
         //console.log("API key is: "+API);
         let tempQuestions = [...questions];
@@ -126,18 +113,22 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
                                 model: "gpt-4.1",
                                 messages: [
                                     {
+                                        role: "system",
+                                        content: "You are an AI assistant that helps improve or make new survey questions based on user feedback. These questions should be answerable on a scale of 1 to 10. Avoid inappropriate suggestions and generate concise, answerable questions. Do not create questions containing slurs, political content, or reproductive references."
+                                    },
+                                    {
                                         role: "user",
                                         content: "This is the current question: "+tempQuestions[i].name+". The following reason is given as potential improvement for the current question: "+tempQuestions[i].reason+", if the reason is related to improving the current question and does not say anything offensive or innapropriate, create a new question based on the criteria. If not, make the output \""+tempQuestions[i].name+"\". Make the output "+tempQuestions[i].name+" if the reason has anything to do with slurs, anything policial, innopropriate words or reproductive elements. If there is no reason, make your own question that can be answered on a scale of 1-10. If you produce a new question, make your output just the new question."
                                     },
                                 ],
                             });
                             console.log("hooray");
-                            if(completion2.choices[0].message.content !== null){
-                                tempQuestions[i].name = completion2.choices[0].message.content;
-                                tempDetailed[j] = completion2.choices[0].message.content;
+                            if(completion2.choices[0]?.message?.content !== null){
+                                tempQuestions[i].name = completion2.choices[0]?.message?.content;
+                                tempDetailed[j] = completion2.choices[0]?.message?.content;
                             }
                             //tempDetailed = tempDetailed.map((question: string) => (question === tempQuestions[i].name && completion2.choices[0].message.content !== null) ? question = completion2.choices[0].message.content: question);
-                            console.log("new output: "+completion2.choices[0].message.content);
+                            console.log("new output: "+completion2.choices[0]?.message?.content);
                         }
                     }
                     for(let j = 0; j < tempSimple.length; j++){
@@ -147,18 +138,22 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
                                 model: "gpt-4.1",
                                 messages: [
                                     {
+                                        role: "system",
+                                        content: "You are an AI assistant that helps improve or make new survey questions based on user feedback. These questions should be answerable with a yes or no answer. Avoid inappropriate suggestions and generate concise, answerable questions. Do not create questions containing slurs, political content, or reproductive references."
+                                    },
+                                    {
                                         role: "user",
                                         content: "This is the current question: "+tempQuestions[i].name+". The following reason is given as potential improvement for the current question: "+tempQuestions[i].reason+", if the reason is related to improving the current question and does not say anything offensive or innapropriate, create a new question based on the criteria. If not, make the output \""+tempQuestions[i].name+"\". Make the output "+tempQuestions[i].name+" if the reason has anything to do with slurs, anything policial, innopropriate words or reproductive elements. If there is no reason, make your own question that can be answered with a yes or no answer. If you produce a new question, make your output just the new question."
                                     },
                                 ],
                             });
                             console.log("hooray");
-                            if(completion2.choices[0].message.content !== null){
-                                tempQuestions[i].name = completion2.choices[0].message.content;
-                                tempSimple[j] = completion2.choices[0].message.content;
+                            if(completion2.choices[0]?.message?.content !== null){
+                                tempQuestions[i].name = completion2.choices[0]?.message?.content;
+                                tempSimple[j] = completion2.choices[0]?.message?.content;
                             }
                             //tempSimple = tempSimple.map((question: string) => (question === tempQuestions[i].name && completion2.choices[0].message.content !== null) ? question = completion2.choices[0].message.content: question);
-                            console.log("new output: "+completion2.choices[0].message.content);
+                            console.log("new output: "+completion2.choices[0]?.message?.content);
                             /*for(let l = 0; l < tempDetailed.length; l++){
                                 console.log(l+" - "+tempDetailed[l]);
                             }*/
@@ -191,24 +186,28 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
                         model: "gpt-4.1",
                         messages: [
                             {
+                                role: "system",
+                                content: "You are an AI assistant that helps improve survey questions based on user feedback. Avoid inappropriate suggestions and generate concise, answerable questions. Do not create questions containing slurs, political content, or reproductive references."
+                            },
+                            {
                                 role: "user",
                                 content: "This is the current question: "+tempQuestions[i].name+". The following reason is given as potential improvement for the current question: "+tempQuestions[i].reason+", if the reason is related to improving the current question, improve the current question based on the criteria. If not, make the output \""+tempQuestions[i].name+"\". Make the output "+tempQuestions[i].name+" if the reason has anything to do with slurs, anything policial, innopropriate words or reproductive elements. If there is no reason, make your own question. If you make changes to the original question, make your output just the new question."
                             },
                         ],
                     });
-                    console.log("new output: "+completion3.choices[0].message.content);
+                    console.log("new output: "+completion3.choices[0]?.message?.content);
                     for(let j = 0; j < tempDetailed.length; j++){
                         //console.log(i+":: "+tempDetailed[i]);
                         if(tempQuestions[i].name === tempDetailed[j]){
                             //temp = true;
                             console.log("hooray");
-                            tempDetailed = tempDetailed.map((question: string) => (question === tempQuestions[i].name && completion3.choices[0].message.content !== null) ? question = completion3.choices[0].message.content: question);
+                            tempDetailed = tempDetailed.map((question: string) => (question === tempQuestions[i].name && completion3.choices[0]?.message?.content !== null) ? question = completion3.choices[0]?.message?.content: question);
                             /*for(let l = 0; l < tempDetailed.length; l++){
                                 console.log(l+" - "+tempDetailed[l]);
                             }*/
-                                if(completion3.choices[0].message.content !== null){
-                                    tempQuestions[i].name = completion3.choices[0].message.content;
-                                    tempSimple[j] = completion3.choices[0].message.content;
+                                if(completion3.choices[0]?.message?.content !== null){
+                                    tempQuestions[i].name = completion3.choices[0]?.message?.content;
+                                    tempSimple[j] = completion3.choices[0]?.message?.content;
                                 }
                         }
                     }
@@ -221,18 +220,18 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
                                 console.log(l+" - "+tempDetailed[l]);
                             }*/
                                 if(completion3.choices[0].message.content !== null){
-                                    tempQuestions[i].name = completion3.choices[0].message.content;
-                                    tempSimple[j] = completion3.choices[0].message.content;
+                                    tempQuestions[i].name = completion3.choices[0]?.message?.content;
+                                    tempSimple[j] = completion3.choices[0]?.message?.content;
                                 }
                         }
                     }
                     if(completion3.choices[0].message.content !== null)
-                        {tempQuestions[i].name = completion3.choices[0].message.content;
+                        {tempQuestions[i].name = completion3.choices[0]?.message?.content;
                             if(tempSimple.find((question: string) => question === tempQuestions[i].name)){
-                                tempSimple = tempSimple.map((question: string) => (question === tempQuestions[i].name && completion3.choices[0].message.content !== null) ? question = completion3.choices[0].message.content: question);
+                                tempSimple = tempSimple.map((question: string) => (question === tempQuestions[i].name && completion3.choices[0]?.message?.content !== null) ? question = completion3.choices[0]?.message?.content: question);
                             }
                             else if(tempDetailed.find((question: string) => question === tempQuestions[i].name)){
-                                tempDetailed = tempDetailed.map((question: string) => (question === tempQuestions[i].name && completion3.choices[0].message.content !== null) ? question = completion3.choices[0].message.content: question);
+                                tempDetailed = tempDetailed.map((question: string) => (question === tempQuestions[i].name && completion3.choices[0]?.message?.content !== null) ? question = completion3.choices[0]?.message?.content: question);
                             }
                         }
                     }
@@ -261,6 +260,8 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
         StoreQuestions.setQuestionsAnswered([...tempText]);
         StoreQuestions.setDetailed([...tempDetailed])
         StoreQuestions.setSimple([...tempSimple]);
+        setLoading(false);
+        setPopupVisible(true);
         //const data = JSON.stringify(StoreQuestions.getDetailed().join("\n"));
         //fs.writeFileSync('output.txt', data, 'utf-8');
         /*const fs = require('fs');
@@ -279,6 +280,9 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
            })*/
         //await writeFile(path,data2);
         //fs.writeFileSync(path,data2);
+    }
+    function turnOffPopup(){
+        setPopupVisible(false);
     }
 
     return <div className='Rater'><div className='Header'><h1>Welcome to the Question Rater!</h1><div>{questions.length === 0 ? <h2>You have no questions to rate right now.</h2> : ''}</div><div><Link to='/'><Button>Back To Home</Button></Link></div>
@@ -314,7 +318,8 @@ let options: string[] = ["Very Bad","Bad","Ok","Good","Very Good"];
     <div>{/*Reason is: {rateQuestion.reason}*/}</div>
         </div>
     ))}</div>: ""}
-    <div>{ questions.length !==0 ? <Link to='/'><Button disabled={questions.length === 0} onClick={changeQuestions}>Finish Survey</Button></Link>: ""}</div>
+    <div>{ questions.length !==0 ? <Button disabled={questions.length === 0} onClick={changeQuestions}>Finish Survey</Button>: ""}</div>
+    {(popupVisible || loading) && (<div className='popup-container'>{loading && <div className="loading">Loading...</div>}{popupVisible && (<div className='popup'>Thank you for submitting your feedback! <div><Link to='/'><Button onClick={turnOffPopup}>Back to Home</Button></Link></div></div>)}</div>)}
     </div>
 }
 
